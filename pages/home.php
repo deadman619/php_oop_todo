@@ -43,12 +43,10 @@ if (isset($_GET['newTaskValue'])) {
 }
 if(isset($_GET['delete']) && isset($_GET['id'])) {
 	$taskValue = $_GET['id'];
-	$newTask = new Task();
 	$query->deleteTask($taskValue, 'tasks');
 }
 if(isset($_GET['update']) && isset($_GET['id'])) {
 	$taskValue = $_GET['id'];
-	$newTask = new Task();
 	$update = $query->selectById($taskValue, 'tasks');
 	$query->updateTask($update[0], 'tasks');
 }
