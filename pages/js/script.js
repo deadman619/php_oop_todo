@@ -13,16 +13,26 @@ ajaxData.onreadystatechange = function() {
 		for(task in tasks) {
 			table += '<tr>';
 			table += '<td>' + tasks[task]['ID'] + '</td>';
-			table += '<td>' + tasks[task]['Subject'] + '</td>';
-			table += '<td>' + tasks[task]['Completion'] + '</td>';
-			table += '<td><a href=?delete&id=' + tasks[task]['ID'] + ' class="btn"><i class="far fa-trash-alt"></i></a></td>';
+			if (tasks[task]['Completion'] == false) {
+				table += '<td>' + tasks[task]['Subject'] + '</td>';
+				table += '<td><a style="color: red" href=?update&id=' + tasks[task]['ID'] +
+				 ' class="btn"><i class="far fa-square"></i></a></td>';
+			} else {
+				table += '<td><s>' + tasks[task]['Subject'] + '</s></td>';
+				table += '<td><a style="color: green" href=?update&id=' + tasks[task]['ID'] +
+				 ' class="btn"><i class="far fa-check-square"></i></a></td>';
+			}
+			table += '<td><a href=?delete&id=' + tasks[task]['ID'] +
+			 ' class="btn"><i style="color: red;" class="fas fa-times"></i></a></td>';
 			table += '</tr>';
 		}
 		table += '</table>';
-		table += '<div class="text-center"><a id="new" class="btn btn-danger">Add Task</a></div>';
+		table += '<div class="text-center"><a id="new" class="btn btn-danger">Add Task</a><button id="filter" type=button class="btn btn-warning">Filter Completed</button></div>';
 		document.getElementById('taskContainer').innerHTML = table;
 		var newTask = document.getElementById('new');
 		newTask.addEventListener('click', addNewTask);
+		var filter = document.getElementById('filter');
+		filter.addEventListener('click', filterCompleted);
 	}
 }
 
@@ -42,4 +52,11 @@ function addNewTask() {
 	document.getElementById('newTaskForm').innerHTML = form;
 	cancelClick = document.getElementById('cancel');
 	cancelClick.addEventListener('click', cancelTask);
+}
+
+function filterCompleted() {
+	var completed = document.getElementsByTagName('s');
+	for (let item of completed) {
+		item.parentNode.parentNode.style.display="none";
+	}
 }

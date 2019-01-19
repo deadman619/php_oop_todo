@@ -9,6 +9,9 @@ class Task {
 		 "Completion" => $this->isComplete
 		 ];
 	}
+	public function getId() {
+		return $this->id;
+	}
 	public function getSubject() {
 		return $this->subject;
 	}
@@ -19,7 +22,11 @@ class Task {
 		$this->subject = $subject;
 	}
 	public function setComplete() {
-		$this->isComplete = !($this->isComplete);
+		if($this->isComplete == 0) {
+			$this->isComplete = 1;
+		} else {
+			$this->isComplete = 0;
+		}
 	}
 	public function writeJSON($filename, $object) {
 		$jsonWrite = fopen($filename, 'w');

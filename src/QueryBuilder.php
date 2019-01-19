@@ -11,6 +11,13 @@ class QueryBuilder {
 		$statement->execute();
 		return $statement->fetchAll(PDO::FETCH_CLASS, Task::class);
 	}
+	public function selectById($id, $tableName) {
+		$currentID = $id;
+		$statement = $this->pdo->prepare("SELECT * FROM {$tableName} WHERE id = :id");
+		$statement->bindParam(':id', $currentID, PDO::PARAM_STR);
+		$statement->execute();
+		return $statement->fetchAll(PDO::FETCH_CLASS, Task::class);
+	}
 	public function addTask($task, $tableName) {
 		$tempSubject = $task->getSubject();
 		$tempCompletion = $task->isComplete();
@@ -27,5 +34,13 @@ class QueryBuilder {
 		$statement->execute();
 		header("Location: ../index.php");
 	}
-
+	public function updateTask($task, $tableName) {
+		$task->setComplete();
+		$updateID = $task->getId();
+		$completion = $task->isComplete();
+		$statement = $this->pdo->prepare("UPDATE {$tableName} SET isComplete = {$completion} WHERE id = :id");
+		$statement->bindParam(':id', $updateID, PDO::PARAM_STR);
+		$statement->execute();
+		header("Location: ../index.php");
+	}
 }
