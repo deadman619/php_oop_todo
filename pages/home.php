@@ -35,7 +35,7 @@ $query = new QueryBuilder($pdo);
 </html>
 
 <?php 
-if (isset($_GET['newTaskValue'])) {
+if (isset($_GET['newTaskValue']) && strlen($_GET['newTaskValue']) > 0) {
 	$taskValue = $_GET['newTaskValue'];
 	$newTask = new Task();
 	$newTask->setSubject($taskValue);
